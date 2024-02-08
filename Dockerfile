@@ -14,11 +14,14 @@ RUN composer install \
 # Build Node dependencies
 FROM node:lts AS node-build
 RUN mkdir -p /app/public
+COPY ./package.json ./package-lock.json ./vite.config.js /app/
 COPY ./resources/ /app/resources/
-COPY ./lang/ /app/lang/
+WORKDIR /app
+RUN npm install && npm run build
 
 # Production stage
 FROM php:8.1-apache
+
 
 
 # See https://github.com/mlocati/docker-php-extension-installer for documentation

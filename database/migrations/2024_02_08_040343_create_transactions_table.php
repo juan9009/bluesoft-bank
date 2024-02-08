@@ -13,11 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('clients', function (Blueprint $table) {
+        Schema::create('transactions', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('city');
-            $table->enum('type', ['individual', 'business']);
+            $table->foreignId('account_id')->constrained()->onDelete('cascade');
+            $table->decimal('amount', 8, 2);
+            $table->enum('type', ['deposit', 'withdrawal']);
             $table->timestamps();
         });
     }
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('clients');
+        Schema::dropIfExists('transactions');
     }
 };

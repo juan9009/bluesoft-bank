@@ -13,11 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('clients', function (Blueprint $table) {
+        Schema::create('accounts', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('city');
-            $table->enum('type', ['individual', 'business']);
+            $table->foreignId('client_id')->constrained()->onDelete('cascade');
+            $table->string('account_number')->unique();
+            $table->enum('type', ['savings', 'current']);
+            $table->decimal('balance', 8, 2)->default(0);
+            $table->string('city')->unique();
             $table->timestamps();
         });
     }
@@ -29,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('clients');
+        Schema::dropIfExists('accounts');
     }
 };
