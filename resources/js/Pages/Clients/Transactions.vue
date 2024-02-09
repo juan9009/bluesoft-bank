@@ -12,16 +12,17 @@ const props = defineProps({
     filters: {
         type: Object,
         default: () => ({}),
-    }
+    },
+    month: String,
 });
 
 //const user = usePage().props.auth.user;
 
 
 // pass filters in search
-let month = ref(props.filters.month);
+let localMonth = ref(props.month);
 let timeout;
-watch(month, (value) => {
+watch(localMonth, (value) => {
     clearTimeout(timeout);
     timeout = setTimeout(() => {
         if (value.length == 0 || value.length >= 3) { // mínimo de 3 caracteres
@@ -53,7 +54,7 @@ watch(month, (value) => {
                     <div class="p-6 bg-white border-b border-gray-200">
                         <div class="flex justify-between items-center mb-2">
                             <div class="mb-2">
-                                <input type="month" v-model="month" class="...">
+                                <input type="month" v-model="localMonth" class="...">
                             </div>
                         </div>
                         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
