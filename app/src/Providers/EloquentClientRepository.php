@@ -19,8 +19,8 @@ class EloquentClientRepository implements ClientRepositoryInterface
                     ->OrWhere('city', 'like', '%' . $search . '%');
             })
             ->orderBy('name', 'asc')
-            ->paginate(10);
-        //->withQueryString()
+            ->paginate(10)
+            ->withQueryString();
     }
 
     public function find($id)

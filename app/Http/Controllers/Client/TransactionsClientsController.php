@@ -24,7 +24,7 @@ class TransactionsClientsController extends Controller
         $month = $request->input('month');
         $clients = [];
         if (!$request->has('month') || $request->input('month') == null) {
-            $month = date('Y-m');
+            $month = null;
         } else {
             $month = $request->input('month');
             $clients = $this->getTransactions->execute($month);
