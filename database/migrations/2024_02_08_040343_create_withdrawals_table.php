@@ -13,11 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('transactions', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('account_id')->constrained()->onDelete('cascade');
+        Schema::create('withdrawals', function (Blueprint $table) {
+            $table->uuid()->primary();
+            $table->foreignUuid('account_uuid')->constrained('accounts', 'uuid')->onDelete('cascade');
             $table->decimal('amount', 8, 2);
-            $table->enum('type', ['deposit', 'withdrawal']);
             $table->timestamps();
         });
     }
@@ -29,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('transactions');
+        Schema::dropIfExists('withdrawals');
     }
 };

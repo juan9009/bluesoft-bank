@@ -14,12 +14,12 @@ return new class extends Migration
     public function up()
     {
         Schema::create('accounts', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('client_id')->constrained()->onDelete('cascade');
+            $table->uuid()->primary();
+            $table->foreignUuid('client_uuid')->constrained('clients', 'uuid')->onDelete('cascade');
             $table->string('account_number')->unique();
             $table->enum('type', ['savings', 'current']);
             $table->decimal('balance', 8, 2)->default(0);
-            $table->string('city')->unique();
+            $table->string('city');
             $table->timestamps();
         });
     }

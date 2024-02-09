@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('clients', function (Blueprint $table) {
-            $table->id();
+            $table->uuid()->primary();
             $table->string('name');
             $table->string('city');
             $table->enum('type', ['individual', 'business']);
