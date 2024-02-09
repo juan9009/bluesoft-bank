@@ -38,7 +38,7 @@ const showingNavigationDropdown = ref(false);
                                 <NavLink :href="route('transactions.index')" :active="route().current('transactions.index')">
                                     Transactions Rank
                                 </NavLink>
-                                <NavLink :href="route('transactions.index')" :active="route().current('transactions.outtown')">
+                                <NavLink :href="route('transactions.outtown')" :active="route().current('transactions.outtown')">
                                     Out Town withdrawals
                                 </NavLink>
                             </div>

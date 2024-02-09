@@ -70,15 +70,19 @@ class EloquentClientRepository implements ClientRepositoryInterface
 
     public function outTownWithdrawal()
     {
-        $clients = DB::select("
-            SELECT clients.*, SUM(withdrawals.amount) as total_amount
-            FROM clients
-            JOIN accounts ON clients.uuid = accounts.client_uuid
-            JOIN withdrawals ON accounts.uuid = withdrawals.account_uuid
-            WHERE accounts.city != withdrawals.city
-            GROUP BY clients.uuid
-            HAVING total_amount > 1000000
-        ");
+        $withdrawalsSum = DB::table('clients')
+            ->select('clients.uuid', DB::raw('SUM(withdrawals.amount) as total_amount'))
+            ->join('accounts', 'clients.uuid', '=', 'accounts.client_uuid')
+            ->join('withdrawals', 'accounts.uuid', '=', 'withdrawals.account_uuid')
+            ->whereRaw('accounts.city != withdrawals.city')
+            ->groupBy('clients.uuid')
+            ->havingRaw('SUM(withdrawals.amount) > 1000000');
+
+        $clients = Client::query()
+            ->joinSub($withdrawalsSum, 'withdrawalsSum', function ($join) {
+                $join->on('clients.uuid', '=', 'withdrawalsSum.uuid');
+            })
+            ->paginate(10);
 
         return $clients;
     }

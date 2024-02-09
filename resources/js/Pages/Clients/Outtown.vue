@@ -18,6 +18,10 @@ const props = defineProps({
 
 //const user = usePage().props.auth.user;
 
+const formatBalance = (balance) => {
+    const numberBalance = Number(balance);
+    return numberBalance.toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+}
 </script>
 
 <template>
@@ -26,7 +30,7 @@ const props = defineProps({
     <AuthenticatedLayout>
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">Clients who made withdrawals outside the city for
-                a minimum of $1,000.000</h2>
+                a greater of $1,000.000</h2>
         </template>
 
         <div class="py-12">
@@ -43,7 +47,7 @@ const props = defineProps({
                                         <th scope="col" class="px-6 py-3">Name</th>
                                         <th scope="col" class="px-6 py-3">Type</th>
                                         <th scope="col" class="px-6 py-3">City</th>
-                                        <th scope="col" class="px-6 py-3">Transactions</th>
+                                        <th scope="col" class="px-6 py-3">Transaction amount</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -64,7 +68,7 @@ const props = defineProps({
                                             {{ client.city }}
                                         </td>
                                         <td class="px-6 py-4">
-                                            {{ client.transactions_count }}
+                                            ${{ formatBalance(client.total_amount) }}
                                         </td>
                                     </tr>
                                 </tbody>
