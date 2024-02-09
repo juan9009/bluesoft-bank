@@ -14,6 +14,7 @@ class EloquentDepositRepository implements DepositRepositoryInterface
         $account = new Deposit();
         $account->account_uuid = $depositDto->getAccountUuid();
         $account->amount = $depositDto->getAmount();
+        $account->city = $depositDto->getCity();
         $account->save();
     }
 

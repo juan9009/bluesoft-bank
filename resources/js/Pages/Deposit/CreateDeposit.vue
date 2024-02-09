@@ -19,6 +19,7 @@ const props = defineProps({
 
 const form = useForm({
   amount: '',
+  city: '',
 });
 
 // Define your options for the Select component
@@ -73,9 +74,18 @@ const handleKeyPress = (event) => {
                 <InputLabel for="amount" value="Amount" />
 
                 <TextInput id="amount" type="number" class="mt-1 block w-full" v-model="form.amount" required autofocus
-                  autocomplete="amount" @keypress="event => handleKeyPress(event)"/>
+                  autocomplete="amount" @keypress="event => handleKeyPress(event)" />
 
                 <InputError class="mt-2" :message="form.errors.amount" />
+              </div>
+
+              <div>
+                <InputLabel for="city" value="City" />
+
+                <TextInput id="city" type="text" class="mt-1 block w-full" v-model="form.city" required
+                  autocomplete="city" />
+
+                <InputError class="mt-2" :message="form.errors.city" />
               </div>
 
 

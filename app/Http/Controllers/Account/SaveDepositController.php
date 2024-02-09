@@ -33,11 +33,13 @@ class SaveDepositController extends Controller
     {
         $request->validate([
             'amount' => 'required|numeric|min:0|not_in:0',
+            'city' => 'required|string|max:255',
 
         ]);
         try {
             $amount = $request->input('amount');
-            $depositDTO = new DepositDTO($account->uuid, $amount);
+            $city = $request->input('city');
+            $depositDTO = new DepositDTO($account->uuid, $amount, $city);
             $this->saveDeposit->execute($depositDTO);
             return redirect()->route('accounts.list', [
                 'client' => $account->client_uuid

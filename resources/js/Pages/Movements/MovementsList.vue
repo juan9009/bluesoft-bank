@@ -35,6 +35,7 @@ const formatBalance = (balance) => {
                                     <th scope="col" class="px-6 py-3">Date</th>
                                     <th scope="col" class="px-6 py-3">Type</th>
                                     <th scope="col" class="px-6 py-3">Amount</th>
+                                    <th scope="col" class="px-6 py-3">City</th>
                                     <!--<th scope="col" class="px-6 py-3">Detail</th>-->
                                 </tr>
                             </thead>
@@ -53,6 +54,9 @@ const formatBalance = (balance) => {
                                     </td>
                                     <td class="px-6 py-4">
                                         ${{ formatBalance(movement.amount) }}
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        {{ movement.city }}
                                     </td>
                                     <!--<td class="px-6 py-4">
                                                     <Link :href="route('movement.form', movement.client_uuid)"

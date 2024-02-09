@@ -14,6 +14,7 @@ class EloquentWithdrawalsRepository implements WithdrawalsRepositoryInterface
         $account = new Withdrawal();
         $account->account_uuid = $accountDto->getAccountUuid();
         $account->amount = $accountDto->getAmount();
+        $account->city = $accountDto->getCity();
         $account->save();
     }
 

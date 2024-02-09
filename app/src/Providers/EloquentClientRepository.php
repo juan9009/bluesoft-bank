@@ -7,6 +7,7 @@ use App\Src\DTOs\ClientDTO;
 use App\Src\Repositories\ClientRepositoryInterface;
 use Carbon\Carbon;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\DB;
 
 class EloquentClientRepository implements ClientRepositoryInterface
 {
@@ -65,5 +66,20 @@ class EloquentClientRepository implements ClientRepositoryInterface
         $paginator = new LengthAwarePaginator($currentItems, count($clients), $perPage, $currentPage);
 
         return $paginator;
+    }
+
+    public function outTownWithdrawal()
+    {
+        $clients = DB::select("
+            SELECT clients.*, SUM(withdrawals.amount) as total_amount
+            FROM clients
+            JOIN accounts ON clients.uuid = accounts.client_uuid
+            JOIN withdrawals ON accounts.uuid = withdrawals.account_uuid
+            WHERE accounts.city != withdrawals.city
+            GROUP BY clients.uuid
+            HAVING total_amount > 1000000
+        ");
+
+        return $clients;
     }
 }

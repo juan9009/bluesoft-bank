@@ -7,12 +7,14 @@ class WithdrawalsDTO
     private $uuid;
     private $account_uuid;
     private $amount;
+    private $city;
 
-    public function __construct($account_uuid, $amount, $uuid = null)
+    public function __construct($account_uuid, $amount, $city, $uuid = null)
     {
         $this->uuid = $uuid;
         $this->account_uuid = $account_uuid;
         $this->amount = $amount;
+        $this->city = $city;
     }
 
     public function getId()
@@ -28,5 +30,10 @@ class WithdrawalsDTO
     public function getAmount()
     {
         return $this->amount;
+    }
+
+    public function getCity()
+    {
+        return $this->city;
     }
 }

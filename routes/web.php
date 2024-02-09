@@ -9,6 +9,7 @@ use App\Http\Controllers\Account\SaveAccountController;
 use App\Http\Controllers\Account\SaveDepositController;
 use App\Http\Controllers\Account\SaveWithdrawalController;
 use App\Http\Controllers\Client\ClientListController;
+use App\Http\Controllers\Client\GetOuttownClientsController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -64,6 +65,7 @@ Route::middleware('auth')->group(function () {
 
 
     Route::get('/transactions-clients', [TransactionsClientsController::class, 'index'])->name('transactions.index');
+    Route::get('/out-town-withdrawals', [GetOuttownClientsController::class, 'index'])->name('transactions.outtown');
 });
 
 require __DIR__ . '/auth.php';

@@ -33,10 +33,12 @@ class SaveWithdrawalController extends Controller
     {
         $request->validate([
             'amount' => 'required|numeric|min:0|not_in:0',
+            'city' => 'required|string|max:255',
         ]);
         try {
             $amount = $request->input('amount');
-            $withdrawalsDTO = new WithdrawalsDTO($account->uuid, $amount);
+            $city = $request->input('city');
+            $withdrawalsDTO = new WithdrawalsDTO($account->uuid, $amount, $city);
             $this->saveWithdrawal->execute($withdrawalsDTO);
             return redirect()->route('accounts.list', [
                 'client' => $account->client_uuid

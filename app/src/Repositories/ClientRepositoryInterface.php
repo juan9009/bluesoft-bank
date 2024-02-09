@@ -12,4 +12,5 @@ interface ClientRepositoryInterface
     public function save(ClientDTO $clientDto);
     public function movements();
     public function transactions($month);
+    public function outTownWithdrawal();
 }
