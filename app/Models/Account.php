@@ -63,4 +63,20 @@ class Account extends Model
     {
         return $this->belongsTo(Client::class, 'client_uuid', 'uuid');
     }
+
+    /**
+     * Get the deposits for the account.
+     */
+    public function deposits()
+    {
+        return $this->hasMany(Deposit::class, 'account_uuid', 'uuid');
+    }
+
+    /**
+     * Get the withdrawals for the account.
+     */
+    public function withdrawals()
+    {
+        return $this->hasMany(Withdrawal::class, 'account_uuid', 'uuid');
+    }
 }

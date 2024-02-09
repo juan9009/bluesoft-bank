@@ -65,7 +65,7 @@ watch(month, (value) => {
                                         <th scope="col" class="px-6 py-3">Name</th>
                                         <th scope="col" class="px-6 py-3">Type</th>
                                         <th scope="col" class="px-6 py-3">City</th>
-                                        <th scope="col" class="px-6 py-3">Accounts</th>
+                                        <th scope="col" class="px-6 py-3">Transactions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -86,10 +86,7 @@ watch(month, (value) => {
                                             {{ client.city }}
                                         </td>
                                         <td class="px-6 py-4">
-                                            <Link :href="route('accounts.list', client.uuid)"
-                                                class="inline-block px-6 py-2 text-xs font-medium text-white uppercase transition-colors duration-200 transform bg-blue-600 rounded-md hover:bg-blue-500 focus:outline-none focus:bg-blue-500">
-                                            <i class="fas fa-eye"></i>
-                                            </Link>
+                                            {{ client.transactions_count }}
                                         </td>
                                     </tr>
                                 </tbody>
