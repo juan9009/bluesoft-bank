@@ -14,8 +14,8 @@ class GetMovements
         $this->accountRepository = $accountRepository;
     }
 
-    public function execute(Account $account)
+    public function execute(Account $account, $month = null)
     {
-        return $this->accountRepository->movements($account);
+        return $this->accountRepository->movements($account, $month);
     }
 }

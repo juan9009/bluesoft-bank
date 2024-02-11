@@ -57,6 +57,10 @@ const closeMessage = () => {
     state.showSuccessMessage = false;
 }
 
+const updateMovements = (newMovements) => {
+    state.movements = newMovements;
+};
+
 </script>
 
 <template>
@@ -165,7 +169,8 @@ const closeMessage = () => {
                                 <div class="">
                                     <div v-if="isLoading">Cargando...</div>
                                     <div v-else>
-                                        <MovementsList :movements="state.movements"></MovementsList>
+                                        <MovementsList :movements="state.movements" :account="state.selectedAccount"
+                                            @updateMovements="updateMovements"></MovementsList>
                                     </div>
                                 </div>
                             </div>

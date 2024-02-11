@@ -32,9 +32,22 @@ class SaveWithdrawalController extends Controller
     public function store(Request $request, Account $account)
     {
         $request->validate([
-            'amount' => 'required|numeric|min:0|not_in:0',
+            'amount' => [
+                'required',
+                'numeric',
+                'min:0',
+                'not_in:0',
+                function ($attribute, $value, $fail) use ($account) {
+                    if ($account->balance < $value) {
+                        $fail('Insufficient balance');
+                    }
+                },
+            ],
             'city' => 'required|string|max:255',
         ]);
+        if ($account->balance < $request->amount) {
+            return response()->json(['error' => 'Insufficient balance'], 400);
+        }
         try {
             $amount = $request->input('amount');
             $city = $request->input('city');

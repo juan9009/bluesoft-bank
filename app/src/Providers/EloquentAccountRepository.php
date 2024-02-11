@@ -8,6 +8,7 @@ use App\Models\Deposit;
 use App\Models\Withdrawal;
 use App\Src\DTOs\AccountDTO;
 use App\Src\Repositories\AccountRepositoryInterface;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
 class EloquentAccountRepository implements AccountRepositoryInterface
@@ -29,18 +30,26 @@ class EloquentAccountRepository implements AccountRepositoryInterface
             ->paginate(10);
     }
 
-    public function movements(Account $account)
+    public function movements(Account $account, $month = null)
     {
         $deposits = DB::table('deposits')
-            ->where('deposits.account_uuid', $account->uuid)
-            ->select('deposits.*', DB::raw("'deposit' as type"));
+            ->where('deposits.account_uuid', $account->uuid);
 
         $withdrawals = DB::table('withdrawals')
-            ->where('withdrawals.account_uuid', $account->uuid)
-            ->select('withdrawals.*', DB::raw("'withdrawal' as type"));
+            ->where('withdrawals.account_uuid', $account->uuid);
 
-        return $deposits->union($withdrawals)
-            ->orderBy('created_at', 'desc')
-            ->paginate(10);
+        if ($month) {
+            $month = Carbon::parse($month)->month;
+            $deposits = $deposits->whereMonth('created_at', $month);
+            $withdrawals = $withdrawals->whereMonth('created_at', $month);
+        }
+
+        $deposits = $deposits->select('deposits.*', DB::raw("'deposit' as type"));
+        $withdrawals = $withdrawals->select('withdrawals.*', DB::raw("'withdrawal' as type"));
+
+        $union = $deposits->union($withdrawals)
+            ->orderBy('created_at', 'desc');
+
+        return $union->paginate(10);
     }
 }

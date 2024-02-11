@@ -3,8 +3,13 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head, Link, router } from '@inertiajs/vue3';
 import Pagination from "@/Components/Pagination.vue";
 import axios from 'axios';
+import { ref, watch, reactive } from "vue";
 
 const props = defineProps({
+    account: {
+        type: Object,
+        default: () => ({}),
+    },
     movements: {
         type: Object,
         default: () => ({}),
@@ -16,6 +21,37 @@ const formatBalance = (balance) => {
     return numberBalance.toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 }
 
+const emit = defineEmits(['updateMovements']);
+
+// pass filters in search
+let monthmovements = ref('');
+const isLoading = ref(false);
+let timeout;
+
+watch(monthmovements, (value) => {
+    clearTimeout(timeout);
+    timeout = setTimeout(() => {
+        if (value.length == 0 || value.length >= 3) { // mínimo de 3 caracteres
+            getAccountDetails();
+        }
+    }, 1000); // 1000ms delay
+});
+
+const getAccountDetails = async () => {
+    isLoading.value = true;
+    try {
+        const response = await axios.get(`/movements/${props.account.uuid}`, {
+            params: {
+                month: monthmovements.value
+            }
+        });
+        emit('updateMovements', response.data.movements);
+    } catch (error) {
+        console.error(error);
+    } finally {
+        isLoading.value = false;
+    }
+};
 </script>
 
 <template>
@@ -27,6 +63,12 @@ const formatBalance = (balance) => {
                 </div>
                 <div class="p-6 bg-white border-b border-gray-200">
                     <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+                        <div class="flex justify-between items-center mb-2">
+                            <div class="mb-2">
+                                <span class="leading-tight mr-4">Extract by month</span>
+                                <input type="month" v-model="monthmovements" class="...">
+                            </div>
+                        </div>
                         <table v-if="movements && movements.data && movements.data.length > 0"
                             class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">

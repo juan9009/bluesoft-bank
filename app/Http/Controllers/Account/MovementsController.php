@@ -17,10 +17,14 @@ class MovementsController extends Controller
         $this->getMovements = $getMovements;
     }
 
-    public function index(Account $account)
+    public function index(Account $account, Request $request)
     {
+        $month = null;
+        if ($request->has('month')) {
+            $month = $request->get('month');
+        }
         // Delega la lógica de negocio al caso de uso
-        $movements = $this->getMovements->execute($account);
+        $movements = $this->getMovements->execute($account, $month);
 
         // Devuelve una respuesta Inertia que renderiza el componente 'Movements' con los movements como prop
         //return Inertia::render('MovementsList', ['movements' => $movements]);

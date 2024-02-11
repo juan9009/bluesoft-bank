@@ -10,5 +10,5 @@ interface AccountRepositoryInterface
 {
     public function save(AccountDTO $accountDto);
     public function allByClient(Client $client);
-    public function movements(Account $account);
+    public function movements(Account $account, $month = null);
 }
